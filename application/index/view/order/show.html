@@ -1,0 +1,143 @@
+{extend name="layout/app" /}
+
+{block name="css"}
+{/block}
+
+{block name="content"}
+
+    <div id="wrapper">
+        <div class="page-order-view" data-log="订单详情">
+
+            <div class="page-order-view-wrap">
+                <div>
+                    <div class="b1">
+                            <div class="b11"><p><strong>订单编号：</strong><span>{{$order->out_trade_no}}</span></p></div>
+                            <div class="b11"><p><strong>订单状态：</strong><span>已收货</span></p></div>
+                        </div>
+                        <div class="ui_line"></div>
+                        <div class="b1">
+                            <div class="b12">
+                                <ul>
+                                    <li class="done">
+                                        <div class="mark"><p>下单</p></div>
+                                        <div class="time"><p>{{$order->created_at}}</p></div>
+                                    </li>
+                                    <li>
+                                        <div class="mark"><p>付款</p></div>
+                                        <div class="time"><p></p></div>
+                                    </li>
+                                    <li class="">
+                                        <div class="mark"><p>配货</p></div>
+                                        <div class="time"><p></p></div>
+                                    </li>
+                                    <li class="">
+                                        <div class="mark"><p>出库</p></div>
+                                        <div class="time"><p></p></div>
+                                    </li>
+                                    <li class="">
+                                        <div class="mark"><p>交易成功</p></div>
+                                        <div class="time"><p></p></div>
+                                    </li>
+                                    @if($order->closed > 1)
+                                        <li class="done">
+                                            <div class="mark"><p>配货</p></div>
+                                            <div class="time"><p>2015/09/25 16:30</p></div>
+                                        </li>
+                                    @elseif($order->closed > 2)
+                                        <li class="done">
+                                            <div class="mark"><p>出库</p></div>
+                                            <div class="time"><p>2015/09/25 18:36</p></div>
+                                        </li>
+                                    @elseif($order->closed > 3)
+                                        <li class="done">
+                                            <div class="mark"><p>交易成功</p></div>
+                                            <div class="time"><p>2015/09/28 16:44</p></div>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="b8">
+                        <div>
+                            <div class="b81">
+                                <p><strong>物流信息：</strong><span>EMS(沈阳)</span><span>1109567662406</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui_line"></div>
+                    <div class="b3">
+                        <ul>
+                            <li>
+                                @foreach($order->order_products as $product)
+                                <div class="ui-box">
+                                    <div class="img"><img src="{{$product->product->image}}"></div>
+                                    <div class="ui-box-flex">
+                                        <div class="name"><p>{{$product->product->name}}</p></div>
+                                        <div class="price">
+                                            <p>
+                                                <strong>{{$order->total_price}}元</strong>
+                                                <span>售价：</span>
+                                                <span>{{$order->total_price}}元</span>
+                                                <span>x{{$product->num}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    @endforeach
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ui_line"></div>
+                </div>
+                <div>
+                    <div class="b4">
+                        <ul>
+                            <li><strong>下单日期：</strong><span>{{$order->created_at}}</span></li>
+                            <li class="address">
+                                <div><strong>收货地址：</strong></div>
+                                <div class="info"><span>{{$order->address->province}}</span><span>{{$order->address->area}}</span><span>{{$order->address->city}}</span><span>{{$order->address->detail}}</span>
+                                </div>
+                            </li>
+                            <li><strong>收货人名：</strong><span>{{$order->address->name}}</span><span class="tel">{{$order->address->tel}}</span></li>
+                            <!--<li><strong>收货时间：</strong><span>不限送货时间</span></li>-->
+                            <!--<li><strong>发票类型：</strong><span>个人电子发票</span></li>-->
+                            <li><strong>发票抬头：</strong><span>个人</span></li>
+                        </ul>
+                    </div>
+                    <div class="ui_line"></div>
+                    <div class="b5">
+                        <div class="b51"><p><strong>商品价格：</strong><strong>{{$order->total_price}}元</strong></p></div>
+                        <div class="b51"><p><strong>配送费用：</strong><strong>{{$order->express_money}}元</strong></p></div>
+                        <div class="b52"><p><strong>应付总额：</strong><strong>{{$order->total_price}}元</strong></p></div>
+                    </div>
+                    <div class="b7">
+                        <div class="ui-box">
+                            <div class="ui-box-flex price">
+                                <p>
+                                    <span>应付总额：</span><br>
+                                    <strong>{{$order->total_price}}元</strong>
+                                </p>
+                            </div>
+                            <div class="ui-box-flex">
+                                <a href="javascript:;" class="ui-button ui-button-gray"><span>取消订单</span></a>
+                            </div>
+                            <div class="ui-box-flex">
+                                <a href="javascript:;" class="ui-button"><span>立即支付</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{block name="js"}
+<script>
+    $(function () {
+    })
+</script>
+
+{/block}

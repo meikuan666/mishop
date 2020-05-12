@@ -1,0 +1,91 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="page-header">
+            <ol class="am-breadcrumb am-breadcrumb-slash">
+                <li><a href="/admin/Brand/index">商品品牌</a></li>
+                <li>编辑品牌</li>
+            </ol>
+        </div>
+
+        <div class="page-body">
+
+            <!--<div class="am-g">-->
+            <!--<div class="am-u-md-12">-->
+            <!--<div class="am-alert" data-am-alert>-->
+            <!--<button type="button" class="am-close">×</button>-->
+
+            <!--<h1>有 2 处问题导致无法提交:</h1>-->
+            <!--<ul>-->
+            <!--<li>名称 必须填写！</li>-->
+            <!--<li>排序 必须填写！</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+
+            <form class="am-form am-form-horizontal" method="post" action="{:url('admin/Brand/update',['id'=>$brand.id])}">
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-u-md-3 am-form-label">名称</label>
+                    <div class="am-u-sm-12 am-u-md-5 am-u-end">
+                        <input type="text" name="name" value="{$brand.name}">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-u-md-3 am-form-label">链接</label>
+                    <div class="am-u-sm-12 am-u-md-5 am-u-end">
+                        <input type="text" name="url" value="{$brand.url}">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-u-md-3 am-form-label">排序</label>
+                    <div class="am-u-sm-12 am-u-md-5 am-u-end">
+                        <input type="text" name="sort" value="{$brand.sort}">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-u-md-3 am-form-label">显示</label>
+
+                    <div class="am-u-sm-12 am-u-md-5 am-u-end">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="is_show" checked=""> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="is_show"> 否
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-u-md-3 am-form-label">描述</label>
+                    <div class="am-u-sm-12 am-u-md-5 am-u-end">
+                        <textarea rows="8" value="" name="description">{$brand.description}</textarea>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <div class="am-u-sm-12 am-u-md-9 am-u-md-offset-3">
+                        <button type="button" onclick="location='/admin/Brand/index'"
+                                class="am-btn am-btn-default am-btn-sm am-radius">返 回
+                        </button>
+                        <button type="submit" class="am-btn am-btn-primary am-btn-sm am-radius">保 存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <p>Copyright © 2013-2018 长乐未央技术研发部出品</p>
+    </footer>
+</div>
+
+{/block}

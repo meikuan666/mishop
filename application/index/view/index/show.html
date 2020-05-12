@@ -1,0 +1,134 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+<div id="wrapper" style="display: block">
+    <div class="page-product-view" data-log="商品详情">
+
+
+        <div class="product-view">
+            <section class="slider">
+                <div class="flexslider">
+                    <ul class="slides">
+                        {volist name='product.galleries' id='gallery'}
+                        <li>
+                            <a href=""><img src="{$gallery->img}"></a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </section>
+
+
+            <div class="b2">
+                <div class="b21">
+                    <div class="b211">
+                        <div class="name"><p>{$product->name}</p></div>
+                        <div class="price"><strong>{$product->price}元</strong></div>
+                    </div>
+                    <div class="b212">
+                        <div class="icon-fenxiang"></div>
+                    </div>
+                </div>
+                <div class="b22">
+                    <p>{$product->description}</p>
+                </div>
+            </div>
+            <div class="mt20" style="display: none;"></div>
+
+            <ul class="b3" style="display: none;">
+                <li><span>通用</span></li>
+            </ul>
+
+            <div class="ui-b7">
+                <h3>为您推荐</h3>
+                <div class="ui-carousel-container">
+                    <div class="ui-carousel-viewport">
+                        <a href="/1/#/product/view?product_id=2392">
+                            <img src="http://i8.mifile.cn/v1/a1/T1NPx_BTZT1RXrhCrK.jpg?width=200&amp;height=200">
+                        </a>
+                        <a href="/1/#/product/view?product_id=2392">
+                            <img src="http://i8.mifile.cn/v1/a1/T1NPx_BTZT1RXrhCrK.jpg?width=200&amp;height=200">
+                        </a>
+                        <a href="/1/#/product/view?product_id=2392">
+                            <img src="http://i8.mifile.cn/v1/a1/T1NPx_BTZT1RXrhCrK.jpg?width=200&amp;height=200">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="b5">
+                <div class="b51"></div>
+                <div class="b52">
+                    <div class="blc">
+                        {$product->content|raw}
+                    </div>
+                </div>
+            </div>
+            <div class="b7">
+                <div class="b70">
+                    <a href="/">
+                        <div class="icon-home"></div>
+                    </a>
+                </div>
+                <div class="b72" data-id="{$product.id}">
+                    <!--<a href="javascript:;" class="off">暂时缺货</a>-->
+                    <a href="javascript:;" id="buy">立即购买</a>
+                </div>
+
+                <div class="b73">
+                    <a href="/1/#/cart/index">
+                        <div class="icon-gouwuche"></div>
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:;" id="top" style="visibility: visible;">
+                <img src="http://s1.mi.com/m/images/m/top.png">
+            </a>
+        </div>
+        <div class="share-component"></div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    function goTop() {
+        //速度
+        var speed = 100;
+        //开启定时器
+
+        var timer = setInterval(function () {
+            //获取滚动条的高度
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            //设置滚动的高度
+            document.documentElement.scrollTop = document.body.scrollTop = (scrollTop - speed);
+            //清除定时器
+            speed += 30;
+            if (scrollTop <= 0) {
+                clearInterval(timer);
+            }
+        }, 30)
+    }
+
+    top.onclick = function () {
+
+        goTop();//调用函数
+    }
+
+    $(function () {
+        $("#buy").click(function () {
+            // alert(134);
+            var id = $(this).parent('div').data('id');
+            // console.log(id);return;
+            $.ajax({
+                type: "GET",
+                url: '/index/Cart/store',
+                data: {id:id},
+
+                success: function () {
+                    location.href = '/index/Cart/index'
+                }
+            })
+
+        })
+    })
+</script>
+{/block}

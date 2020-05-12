@@ -1,0 +1,175 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="page-header">
+            <ol class="am-breadcrumb am-breadcrumb-slash">
+                <li><a href="/admin">首页</a></li>
+                <li>列表</li>
+            </ol>
+        </div>
+
+        <div class="page-body">
+
+            <div class="am-g">
+                <form action="" class="am-form am-form-horizontal">
+
+                    <div class="am-u-sm-12 am-u-md-4">
+                        <div class="am-form-group">
+                            <label class="am-u-sm-2 am-form-label">名称</label>
+                            <div class="am-u-sm-10">
+                                <input type="text" name="q" placeholder="请输入名称" value="{:Request::param('q')}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-u-sm-12 am-u-md-8">
+                        <div class="am-form-group search-buttons">
+                            <button class="am-btn am-btn-primary" type="submit">查 询</button>
+                            <button class="am-btn am-btn-default" onclick="location='/admin/Brand/index'" type="button">
+                                重 置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <div class="am-btn-toolbar">
+                        <div class="">
+                            <button type="button" onclick="location='/admin/Brand/create'" class="am-btn am-btn-primary">
+                                <span class="am-icon-plus"></span>
+                                新增
+                            </button>
+                            <button type="button" class="am-btn am-btn-default del_all">
+                                <span class="am-icon-trash-o "></span> 删除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-g am-g-collapse">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-check"><input type="checkbox"  class="check_all"/></th>
+                                <th class="table-id">ID</th>
+                                <th class="table-title">名称</th>
+                                <th class="table-type">品牌商品</th>
+                                <th class="table-author am-hide-sm-only">品牌描述</th>
+                                <th class="table-date am-hide-sm-only">是否显示</th>
+                                <th class="table-date am-hide-sm-only">排序</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {volist name='brands' id='brand'}
+                            <tr data-id="{$brand.id}">
+                                <td><input type="checkbox" class="checked_id" name="checked_id[]" value="{$brand.id}"/></td>
+                                <td>{$brand.id}</td>
+                                <td><a href="javascript:;">{$brand.name}</a></td>
+                                <td>default</td>
+                                <td class="am-hide-sm-only">{$brand.description}</td>
+                                <td class="am-hide-sm-only">
+                                    {eq name="brand.is_show" value="1"}
+                                    <span class="am-icon-check change_attr" data-attr="{$brand.is_show}"></span>
+                                    {else/}
+                                    <span class="am-icon-close change_attr" data-attr="{$brand.is_show}"></span>
+                                    {/eq}
+                                </td>
+                                <td class="am-hide-sm-only">{$brand.sort}</td>
+                                <td>
+                                    <a href="{:url('/admin/Brand/edit',['id'=>$brand.id])}">编辑</a>
+                                    <div class="divider divider-vertical"></div>
+                                    <a href="{:url('/admin/Brand/delete',['id'=>$brand.id])}">删除</a>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        <div class="am-cf">
+                            共 {$brands->total()} 条记录
+                            <div class="am-fr">
+                                {$brands|raw}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <p>Copyright © 2013-2018 长乐未央技术研发部出品</p>
+    </footer>
+
+</div>
+{/block}
+
+
+{block name="js"}
+<script>
+    $(function () {
+        // 全选、反选
+        $('.check_all').click(function () {
+            // alert(1234);return;
+            $(':checkbox').prop("checked", this.checked);
+        })
+
+        //多选删除
+        $(".del_all").click(function () {
+            // alert(1234);return;
+
+            var length = $('.checked_id:checked').length;
+            if (length == 0) {
+                alert('您至少要选中一条数据');
+                return false;
+            }
+
+            // 获取选中的数据的id
+            var checked_id = $('.checked_id:checked').serialize();
+            if (confirm('确定要删除么,删除后不能恢复此数据？')) {
+                $.ajax({
+                    type: "DELETE",
+                    url: '/admin/Brand/del_all',
+                    data: checked_id,
+
+                    success: function (data) {
+                        if (data.status == 1) {
+                            alert(data.msg);
+                            $('.checked_id:checked').each(function () {
+                                $(this).parents('tr').remove();
+
+                            })
+                        }
+                    }
+                })
+            }
+
+        })
+
+        //是否显示
+        $('.change_attr').click(function () {
+            var id = $(this).parents('tr').data('id');
+            var is_show = $(this).attr('data-attr');
+            var _this = $(this);
+            $.ajax({
+                type: "PATCH",
+                url: '/admin/Brand/change_attr',
+                data: {id: id, attr: is_show},
+                success: function () {
+                    _this.toggleClass('am-icon-check am-icon-close')
+                }
+            })
+
+        })
+    })
+
+</script>
+{/block}

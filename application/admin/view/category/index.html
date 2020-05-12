@@ -1,0 +1,129 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="page-header">
+            <ol class="am-breadcrumb am-breadcrumb-slash">
+                <li><a href="/Admin">首页</a></li>
+                <li>分类列表</li>
+            </ol>
+        </div>
+
+        <div class="page-body">
+
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <div class="am-btn-toolbar">
+                        <div class="">
+                            <a href="/Admin/Category/add">
+                                <button type="button" class="am-btn am-btn-primary"><span class="am-icon-plus"></span>
+                                    新增
+                                </button>
+
+
+                            </a>
+
+                            <button type="button" class="am-btn am-btn-primary" id="show_all">
+                                <span class="am-icon-arrows-alt"></span> 展开所有
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-g am-g-collapse">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table class="am-table am-table-hover table-main">
+                            <thead>
+                            <tr>
+                                <th class="table-id">ID</th>
+                                <th class="table-title">名称</th>
+                                <th class="table-type">分类商品</th>
+                                <th class="table-type">缩略图</th>
+                                <th class="table-date am-hide-sm-only">排序</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='categories' id='category'}
+                            <tr data-id="{$category->id}" id="row_{$category->id}" class="xParent">
+                                <td>{$category.id}</td>
+                                <td><a href="javascript:;">{$category.name}</a></td>
+                                <td>
+                                    <span class="am-badge am-badge-success">查看商品</span>
+                                </td>
+                                <td></td>
+                                <td class="am-hide-sm-only">
+                                    <span class="am-badge am-badge-secondary">{$category.sort}</span>
+                                </td>
+                                <td>
+                                    <a href="{:url('Category/edit', ['id'=>$category['id']])}">编辑</a>
+                                    <div class="divider divider-vertical"></div>
+                                    <a href="javascript:;" class="del_one">删除</a>
+                                </td>
+                            </tr>
+
+                            {volist name='category.children' id='child'}
+                            <tr data-id="{$child->id}" class="xChildren child_row_{$category->id}">
+                                <td>{$child.id}</td>
+                                <td><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--{$child.name}</a></td>
+                                <td>
+                                    <span class="am-badge am-badge-success">查看商品</span>
+                                </td>
+                                <td>
+                                    <img src="{$child.photo.image ?? ''}" style="width: 80px;height: 60px;" alt="" class="thumb">
+                                </td>
+                                <td class="am-hide-sm-only">
+                                    <span class="am-badge am-badge-secondary">{$child.sort}</span>
+                                </td>
+                                <td>
+                                    <a href="{:url('Category/edit', ['id'=>$child['id']])}">编辑</a>
+                                    <div class="divider divider-vertical"></div>
+                                    <a href="javascript:;" class="del_one">删除</a>
+                                </td>
+                            </tr>
+                            {/volist}
+                            {/volist}
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <p>Copyright © 2013-2018 长乐未央技术研发部出品</p>
+    </footer>
+</div>
+{/block}
+{block name="js"}
+<script>
+    $(function () {
+        $('.change_attr').click(function () {
+            // alert(13);exit;
+            var id = $(this).parents('tr').data('id');
+            var is_show = $(this).attr('data-attr');
+
+            var that = $(this);
+            $.post("/Admin/Category/change_attr", {id, is_show}, function () {
+                that.toggleClass('am-icon-check am-icon-close');
+            })
+        })
+    })
+
+    //展开与折叠表格
+    $("tr.xParent").dblclick(function () {
+        $(this).toggleClass('am-active');
+        $(".child_" + this.id).toggle();
+    });
+
+    $("#show_all").click(function () {
+        $("tr.xParent").toggleClass('am-active');
+        $("tr.xChildren").toggle();
+    });
+</script>
+
+{/block}

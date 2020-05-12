@@ -1,0 +1,41 @@
+
+{extend name="layout/app" /}
+
+
+{block name="content"}
+    <div id="wrapper">
+        <div class="page-address-list" data-log="地址列表">
+            <div class="address-choose">
+                <ul class="ui-list">
+                    {foreach $addresses as $address}
+
+                        <li class="ui-list-item" data-address_id="{$address->id}"><p class="ui_fz30"><span
+                                        class="consignee">{$address->name}</span><span>{$address->tel}</span>
+                            </p>
+                            <p>{$address->province} {$address->city} {$address->area}</p>
+                            <p>{$address->detail}</p></li>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="add"><a href="/index/Address/create" class="ui-button ui-button-active"><span>新建地址</span></a></div>
+            <div class="popup-risk-check"></div>
+        </div>
+    </div>
+
+{/block}
+{block name="js"}
+<script>
+        $('li').click(function () {
+            var address_id = $(this).data('address_id');
+
+            $.ajax({
+                type:'PATCH',
+                url:"/index/Address/change_address",
+                data: {address_id: address_id},
+                success: function () {
+                    location.href = '/index/Order/checkout';
+                }
+            })
+        })
+    </script>
+{/block}

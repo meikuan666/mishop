@@ -1,0 +1,59 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+<div id="wrapper">
+    <div class="page-search" data-log="搜索页">
+        <div class="header">
+            <div class="left">
+                <a href="/1/#/index" title="小米商城" data-log="HEAD-首页" class="home">
+                    <span class="icon-home icon"></span>
+                </a>
+            </div>
+            <div class="tit">
+                <div class="searchword"><input autofocus="autofocus" name="name" id="search_text"></div>
+            </div>
+            <div class="searchlabel">
+                <a>
+                    <span class="icon icon-search " id="search"></span>
+                </a>
+            </div>
+        </div>
+        <div>
+            <ul class="list-default">
+                {volist name='products' id='product'}
+
+                <li class="top" onclick="location.href='/index/Index/show/id/{$product->id}'">
+                    <span>{$product.name}</span></li>
+                {/volist}
+
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+
+    $('#search').click(function () {
+        // alert(123);
+        var info = {
+            text: $("input[id='search_text']").val(),
+
+        };
+        // var text = text: $("input[id='search_text']").val();
+
+        // console.log(info);return;
+
+        $.ajax({
+            type: "POST",
+            url: '/index' ,
+            data: info,
+            success: function (data) {
+                location.href = '/index'
+
+            }
+        })
+
+    })
+</script>
+{/block}

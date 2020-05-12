@@ -1,0 +1,57 @@
+{extend name="layout/app" /}
+
+{block name="content"}
+
+<div id="wrapper">
+    <div class="page-list" data-log="商品列表">
+        <ol class="version">
+
+            {volist name='products' id='product'}
+
+            <li>
+                <a class="version-item" href="/index/Index/show/id/{$product->product_id}">
+                    <div class="version-item-img"><img
+                            src="{$product.product.photos.image}">
+                    </div>
+                    <div class="version-item-intro">
+                        <div class="version-item-name"><p>{$product.product.name}</p></div>
+                        <div class="version-item-intro-price"><span>{$product.product.price}元</span></div>
+                    </div>
+                </a>
+            </li>
+
+            {/volist}
+        </ol>
+        {include file="layout/shared/_footer" /}
+
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+
+    $('#search').click(function () {
+        // alert(123);
+        var info = {
+            text: $("input[id='search_text']").val(),
+
+        };
+        // var text = text: $("input[id='search_text']").val();
+
+        // console.log(info);return;
+
+        $.ajax({
+            type: "POST",
+            url: '/index' ,
+            data: info,
+            success: function (data) {
+                location.href = '/index'
+
+            }
+        })
+
+    })
+</script>
+{/block}
+
+

@@ -1,0 +1,77 @@
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+        <ul class="am-list admin-sidebar-list">
+            <li>
+                <a href="/admin" class="{$_admin ?? ''}">
+                    <span class="am-icon-dashboard"></span> Dashboard
+                </a>
+            </li>
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
+                    <span class="am-icon-file"></span>
+                    商城管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub {$_mishop ?? ''}" id="collapse-nav">
+                    <li>
+                        <a href="{:url('/admin/Brand/index')}" class="{$_brand ?? ''}">
+                            商品品牌
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('/admin/Category/index')}" class="{$_category ?? ''}">
+                            商品分类
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('/admin/Product/index')}" class="{$_product ?? ''}">
+                            商品管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/Product/recycle" class="{$_recycle ?? ''}">
+                            回收站
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#c'}">
+                    <span class="am-icon-file"></span>
+                    广告中心 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub {$_ad ?? ''}" id="c">
+                    <li>
+                        <a href="{:url('/admin/Advert/index')}" class="{$_advert ?? ''}">
+                            广告管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('/admin/Classify/index')}" class="{$_classify ?? ''}">
+                            广告分类
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#v'}">
+                    <span class="am-icon-file"></span>
+                    微信中心 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub {$_wechat ?? ''}" id="v">
+                    <li>
+                        <a href="{:url('/admin/Vx/index')}" class="{$_vx ?? ''}">
+                            菜单管理
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="am-icon-sign-out"></span> 注销
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

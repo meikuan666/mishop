@@ -1,0 +1,72 @@
+{extend name="layout/app" /}
+
+{block name="css"}
+{/block}
+
+{block name="content"}
+
+<div class="wrap">
+
+    <div class="page-my-order" data-log="我的订单">
+        <div class="header">
+            <div class="left"><a title="小米商城" data-log="HEAD-首页" onclick="history.go(-1)" class="home"><img
+                    src="http://s1.mi.com/m/images/m/icon_back_n.png" class="ib"></a></div>
+            <div class="tit"><h2 data-log="HEAD-标题-我的订单"><span class="title">我的订单</span></h2></div>
+            <div class="right"><a href="/1/#/search/index">
+                <div class="icon icon-search"></div>
+            </a></div>
+        </div>
+        <div class="order_list">
+
+            <div class="ol-item">
+                @foreach($orders as $order)
+
+                <div>
+                    <div class="oi1">
+                        <div class="oi11">
+                            <div class="oi111"><p><strong>订单日期：</strong><span>{{$order->crated_at}}</span></p></div>
+                            <div class="oi112"><p><strong>订单编号：</strong><span>{{$order->out_trade_no}}</span></p></div>
+                        </div>
+                        <div class="oi12">
+                            @if($order->closed == 1)
+                            <p>待付款</p>
+                                @elseif($order->closed == 0)
+                                <p>已过期</p>
+                                @elseif($order->closed == 3)
+                                <p>交易成功</p>
+                            @endif
+
+                        </div>
+                    </div>
+
+                    <div class="oi2">
+                        <ul>
+                            <li><a href="/order/show/{{$order->id}}">
+                                @foreach($order->order_products as $product)
+                                <div class="oi21">
+                                    <div class="img"><img src="{{$product->product->image}}"></div>
+                                </div>
+                                <div class="oi22"><p>{{$product->product->name}}</p></div>
+                                    @endforeach
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="oi3"><p><span>共 {{count($order->order_products)}} 件商品</span><span>总金额：</span><strong>{{$order->total_price}}元</strong></p></div>
+                    <div class="oi4">
+                        <a href="javascript:;" class="org">立即付款</a>
+                        <a href="javascript:;">取消订单</a>
+                    </div>
+                </div>
+                    @endforeach
+            </div>
+
+        </div>
+
+
+        {include file="layout/shared/_footer" /}
+
+    </div>
+</div>
+
+{/block}
